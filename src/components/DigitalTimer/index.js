@@ -4,15 +4,16 @@ import {Component} from 'react'
 import './index.css'
 
 class DigitalTimer extends Component {
-  state = {min: 25, sec: '00', count: 24, text: false}
+  state = {min: 25, sec: 59, count: 24, text: false}
 
   componentDidMount() {
     this.timer = setInterval(this.tick, 1000)
-
     this.timer = setInterval(this.minite, 1000)
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
+    const {sec, min} = this.state
+
     clearInterval(this.timer)
   }
 
@@ -32,12 +33,6 @@ class DigitalTimer extends Component {
     }
   }
 
-  reset = () => {
-    const {count, min} = this.state
-    this.setState({sec: '00'})
-    this.setState({min: 25})
-  }
-
   tick = () => {
     const {text} = this.state
     const {sec} = this.state
@@ -52,26 +47,40 @@ class DigitalTimer extends Component {
 
     if (sec === 0) {
       this.setState(prev => ({min: prev.min - 1}))
+      this.setState({sec: 59})
+    }
+
+    const endtime = sec === min * 60
+
+    if (endtime) {
+      this.setState({sec: '0', min: '0'})
     }
   }
 
   change = () => {
     const {count, min, text, sec} = this.state
-    this.setState({sec: parseInt(sec)})
+
     this.setState(prev => ({text: !prev.text}))
+    if (sec === 0) {
+      this.setState(prev => ({min: prev.min - 1}))
+      this.setState({sec: 59})
+    }
+  }
+
+  reset = () => {
+    const {count, min, sec} = this.state
+    this.setState({sec: 0})
+    this.setState({min: 26})
   }
 
   render() {
     const {sec, min, text, count} = this.state
-    const ss = text ? parseInt(sec + 59) : parseInt(sec + 59)
-
-    const tt = text ? 'Pause' : 'Start'
-    const txt = text ? 'Running' : 'Paused'
+    const ss = sec > 9 ? sec : `0${sec}`
+    const mm = min > 9 ? min : `0${min}`
 
     const img = text
       ? 'https://assets.ccbp.in/frontend/react-js/pause-icon-img.png'
       : 'https://assets.ccbp.in/frontend/react-js/play-icon-img.png'
-    const alt1 = text ? 'pause-icon' : 'play-icon'
 
     return (
       <div className="main">
@@ -81,24 +90,23 @@ class DigitalTimer extends Component {
           <div className="col cl">
             <div className="p1">
               <p className="fnt">
-                {min}:{ss}
+                {mm}:{ss}
               </p>
-              <p className="ftt">{txt}</p>
+              <p className="ftt">{text ? 'Running' : 'Paused'}</p>
             </div>
           </div>
 
           <div className="col">
             <div className="row">
               <div className="row">
-                <button
-                  className="btn"
-                  type="button"
-                  onClick={this.change}
-                  onChange={this.componentWillUnmount}
-                >
-                  <img src={img} alt={alt1} className="mg" />
+                <button className="btn" type="button" onClick={this.change}>
+                  <img
+                    src={img}
+                    alt={text ? 'Running' : 'Paused'}
+                    className="mg"
+                  />
                 </button>
-                <p className="ftt">{tt}</p>
+                <p className="ftt">{text ? 'Pause' : 'Start'}</p>
               </div>
 
               <div className="row">
