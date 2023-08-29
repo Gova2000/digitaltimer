@@ -70,7 +70,7 @@ class DigitalTimer extends Component {
   reset = () => {
     const {count, min, sec} = this.state
     this.setState({sec: 0})
-    this.setState({min: 26})
+    this.setState({min: 25})
   }
 
   render() {
