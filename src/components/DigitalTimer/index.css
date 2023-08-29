@@ -1,0 +1,87 @@
+/* Write your CSS here */
+.main {
+  background-image: linear-gradient(to right, #ffffff, #cffcf1);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-family: roboto;
+}
+.card {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+.col {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.p1 {
+  height: 100px;
+  width: 100px;
+  border-bottom-left-radius: 55px;
+  border-bottom-right-radius: 55px;
+  border-top-left-radius: 55px;
+  border-top-right-radius: 55px;
+  background-color: #ffffff;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.fnt {
+  color: #55c7aa;
+  font-weight: bolder;
+  margin: 0px;
+}
+.btn {
+  background-color: transparent;
+  border: none;
+}
+.mg {
+  height: 25px;
+  width: 25px;
+}
+.p2 {
+  width: 50px;
+  padding: 7px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  background-color: #18ebb6;
+  border-radius: 5px;
+}
+.cl {
+  background-image: url('https://assets.ccbp.in/frontend/react-js/digital-timer-elapsed-bg.png');
+  height: 400px;
+  width: 400px;
+  background-size: cover;
+}
+.ftt {
+  font-weight: bold;
+  margin: 0px;
+}
+.time {
+  font-size: x-small;
+  font-weight: bold;
+}
+@media (max-width: 576px) {
+  .card {
+    flex-direction: column;
+  }
+}
