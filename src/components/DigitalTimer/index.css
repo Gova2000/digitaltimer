@@ -51,6 +51,10 @@
 .btn {
   background-color: transparent;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
 .mg {
   height: 25px;
