@@ -4,38 +4,37 @@ import {Component} from 'react'
 import './index.css'
 
 class DigitalTimer extends Component {
-  state = {min: 25, sec: 59, count: 24, text: false}
+  state = {min: 25, sec: 0, text: false}
 
   componentDidMount() {
     this.timer = setInterval(this.tick, 1000)
-    this.timer = setInterval(this.minite, 1000)
+    this.ID = setInterval(this.minite, 1000)
   }
 
   componentWillUnmount() {
-    const {sec, min} = this.state
-
     clearInterval(this.timer)
   }
 
   contplus = () => {
-    const {text, count} = this.state
+    const {text, min} = this.state
     if (text === false) {
-      this.setState({min: count})
-      this.setState(prev => ({count: prev.count + 1}))
+      this.setState(prev => ({min: prev.min + 1}))
+    } else {
+      this.setState({min: {min}})
     }
   }
 
   contminus = () => {
-    const {text, count} = this.state
+    const {text, min} = this.state
     if (text === false) {
-      this.setState({min: count})
-      this.setState(prev => ({count: prev.count - 1}))
+      this.setState(prev => ({min: prev.min - 1}))
+    } else {
+      this.setState({min: {min}})
     }
   }
 
   tick = () => {
     const {text} = this.state
-    const {sec} = this.state
 
     if (text) {
       this.setState(prev => ({sec: prev.sec - 1}))
@@ -43,38 +42,31 @@ class DigitalTimer extends Component {
   }
 
   minite = () => {
-    const {min, sec, count} = this.state
+    const {sec, text, min} = this.state
 
-    if (sec === 0) {
+    const endtime = sec === min * 60
+
+    if (sec === -1 && text === true) {
       this.setState(prev => ({min: prev.min - 1}))
       this.setState({sec: 59})
     }
 
-    const endtime = sec === min * 60
-
     if (endtime) {
-      this.setState({sec: '0', min: '0'})
+      this.setState({sec: '0', min: '0', text: false})
+      clearInterval(this.timer)
     }
   }
 
   change = () => {
-    const {count, min, text, sec} = this.state
-
     this.setState(prev => ({text: !prev.text}))
-    if (sec === 0) {
-      this.setState(prev => ({min: prev.min - 1}))
-      this.setState({sec: 59})
-    }
   }
 
   reset = () => {
-    const {count, min, sec} = this.state
-    this.setState({sec: 0})
-    this.setState({min: 25})
+    this.setState({sec: 0, min: 25, text: false})
   }
 
   render() {
-    const {sec, min, text, count} = this.state
+    const {sec, min, text} = this.state
     const ss = sec > 9 ? sec : `0${sec}`
     const mm = min > 9 ? min : `0${min}`
 
@@ -89,9 +81,9 @@ class DigitalTimer extends Component {
         <div className="card">
           <div className="col cl">
             <div className="p1">
-              <p className="fnt">
+              <h1 className="fnt">
                 {mm}:{ss}
-              </p>
+              </h1>
               <p className="ftt">{text ? 'Running' : 'Paused'}</p>
             </div>
           </div>
@@ -99,25 +91,25 @@ class DigitalTimer extends Component {
           <div className="col">
             <div className="row">
               <div className="row">
-                <button className="btn" type="button" onClick={this.change}>
+                <button className="btn ftt" type="button" onClick={this.change}>
                   <img
                     src={img}
-                    alt={text ? 'Running' : 'Paused'}
+                    alt={text ? 'pause icon' : 'play icon'}
                     className="mg"
                   />
+                  {text ? 'Pause' : 'Start'}
                 </button>
-                <p className="ftt">{text ? 'Pause' : 'Start'}</p>
               </div>
 
               <div className="row">
-                <button type="button" className="btn" onClick={this.reset}>
+                <button type="button" className="btn ftt" onClick={this.reset}>
                   <img
                     src="https://assets.ccbp.in/frontend/react-js/reset-icon-img.png"
-                    alt="reset-icon"
+                    alt="reset icon"
                     className="mg"
                   />
+                  Reset
                 </button>
-                <p className="ftt">Reset</p>
               </div>
             </div>
             <div className="col">
